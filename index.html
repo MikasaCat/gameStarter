@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>游戏启动器</title>
+<script>
+// 生成随机ullExternUid的函数
+function generateUllExternUid() {
+    // 随机生成1到19位的数字
+    return Math.floor(Math.random() * Math.pow(10, 19)).toString();
+}
+
+// 生成深度链接并尝试打开的函数
+function launchGame() {
+    var heroLevel = document.getElementById('heroLevel').value; // 获取英雄等级
+
+    var params = {
+        "createType": "2",
+        "mapID": "20017",
+        "mapType": "4",
+        "ullExternUid": generateUllExternUid(),
+        "roomName": "1",
+        "teamerNum": "10",
+        "platType": "2",
+        "campid": "1",
+        "AddPos": "1",
+        "AddType": "2",
+        "customDefineItems": [`0:${heroLevel}`] // 使用英雄等级
+    };
+
+
+
+    // 转换为JSON字符串
+    var jsonStr = JSON.stringify(params);
+
+    // Base64编码
+    var base64Encoded = btoa(unescape(encodeURIComponent(jsonStr)));
+
+    // 创建深度链接
+    var deepLink = `tencentmsdk1104466820://?PlatformId=qq_m&gamedata=${base64Encoded}`;
+
+    // 在新窗口中打开深度链接
+    window.open(deepLink);
+}
+</script>
+</head>
+<body>
+    <label for="heroLevel">选择英雄等级:</label>
+    <select id="heroLevel">
+        <option value="0">1级</option>
+        <option value="1">4级</option>
+        <option value="2">5级</option>
+        <option value="3">8级</option>
+        <option value="4">10级</option>
+        <option value="5">12级</option>
+        <option value="6">15级</option>
+    </select>
+
+    <button onclick="launchGame()">启动游戏</button>
+</body>
+</html>
